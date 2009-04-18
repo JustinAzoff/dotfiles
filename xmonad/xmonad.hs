@@ -1,8 +1,10 @@
 import XMonad
+import XMonad.Core
 import XMonad.Config.Gnome
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Layout.NoBorders
+import XMonad.Util.Run
 
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
@@ -13,6 +15,7 @@ import System.Exit
 import qualified XMonad.Prompt         as P
 import qualified XMonad.Actions.Submap as SM
 import qualified XMonad.Actions.Search as S
+import XMonad.Prompt.Input
 import XMonad.Prompt.Shell
 -- import XMonad.Prompt.RunOrRaise
 import XMonad.Prompt.Window
@@ -31,6 +34,14 @@ searchEngineMap method = M.fromList $
 
 notSP = (return $ ("SP" /=) . W.tag) :: X (WindowSpace -> Bool)
 
+
+tweetPrompt :: P.XPConfig -> X ()
+tweetPrompt c =
+    inputPrompt c "Tweet" ?+ \body ->
+    io $ runProcessWithInput "twyt" ["tweet", body] ("") -- wrong function, but I can't figure out the right one
+        >> return ()
+
+
 -- Key bindings. Add, modify or remove key bindings here.
 --
 myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
@@ -43,7 +54,8 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     --, ((modm,               xK_p     ), spawn "exe=`dmenu_path | dmenu -b` && eval \"exec $exe\"")
     , ((modm,               xK_e     ), shellPrompt P.defaultXPConfig)
     , ((modm .|. shiftMask, xK_e     ), prompt ("xterm" ++ " -e") P.defaultXPConfig)
-    , ((modm .|. shiftMask, xK_t     ), prompt ("twyt" ++ " tweet") P.defaultXPConfig)
+    -- , ((modm .|. shiftMask, xK_t     ), prompt ("twyt" ++ " tweet") P.defaultXPConfig)
+    , ((modm .|. shiftMask, xK_t     ), tweetPrompt P.defaultXPConfig)
 
     , ((modm, xK_grave), scratchpadSpawnActionTerminal "xterm")
  
