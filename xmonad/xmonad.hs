@@ -163,5 +163,5 @@ main = xmonad $ gnomeConfig {
   , modMask = mod4Mask
   , keys = myKeys
   , layoutHook = ewmhDesktopsLayout $ avoidStruts $ myLayouts
-  , manageHook = scratchpadManageHookDefault <+> manageHook gnomeConfig
+  , manageHook = scratchpadManageHook (W.RationalRect 0.45 0.65 0.55 0.25) <+> manageHook gnomeConfig
 }
