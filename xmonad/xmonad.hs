@@ -17,9 +17,10 @@ import XMonad.Prompt.Shell
 -- import XMonad.Prompt.RunOrRaise
 import XMonad.Prompt.Window
 
---import XMonad.Util.Scratchpad
+import XMonad.Util.Scratchpad
 import XMonad.Layout.Tabbed
 import XMonad.ManageHook
+
 
 searchEngineMap method = M.fromList $
     [ ((0, xK_g), method S.google)
@@ -40,8 +41,10 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     --launch commands
     --, ((modm,               xK_p     ), spawn "exe=`dmenu_path | dmenu -b` && eval \"exec $exe\"")
     , ((modm,               xK_e     ), shellPrompt P.defaultXPConfig)
-    , ((modm, xK_grave), prompt ("xterm" ++ " -e") P.defaultXPConfig)
+    --, ((modm, xK_grave), prompt ("xterm" ++ " -e") P.defaultXPConfig)
     , ((modm .|. shiftMask, xK_t     ), prompt ("twyt" ++ " tweet") P.defaultXPConfig)
+
+    , ((modm, xK_grave), scratchpadSpawnActionTerminal "xterm")
  
     -- launch gmrun
     --, ((modm .|. shiftMask, xK_p     ), spawn "gmrun")
@@ -159,5 +162,5 @@ main = xmonad $ gnomeConfig {
   , modMask = mod4Mask
   , keys = myKeys
   , layoutHook = ewmhDesktopsLayout $ avoidStruts $ myLayouts
-  --  manageHook = myManageHook
+  , manageHook = scratchpadManageHookDefault <+> manageHook gnomeConfig
 }
