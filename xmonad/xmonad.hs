@@ -9,16 +9,16 @@ import qualified Data.Map        as M
 import XMonad.Actions.CycleWS 
 import System.Exit
 
-import XMonad.Prompt
-import XMonad.Prompt.RunOrRaise
-import XMonad.Util.Scratchpad
-import XMonad.Layout.Tabbed
-import XMonad.ManageHook
-import XMonad.Actions.WindowBringer
-import XMonad.Prompt.Shell
 import qualified XMonad.Prompt         as P
 import qualified XMonad.Actions.Submap as SM
 import qualified XMonad.Actions.Search as S
+import XMonad.Prompt.Shell
+-- import XMonad.Prompt.RunOrRaise
+import XMonad.Prompt.Window
+
+--import XMonad.Util.Scratchpad
+import XMonad.Layout.Tabbed
+import XMonad.ManageHook
 
 searchEngineMap method = M.fromList $
     [ ((0, xK_g), method S.google)
@@ -38,9 +38,9 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
  
     --launch commands
     --, ((modm,               xK_p     ), spawn "exe=`dmenu_path | dmenu -b` && eval \"exec $exe\"")
-    , ((modm,               xK_p     ), shellPrompt defaultXPConfig)
-    , ((modm .|. shiftMask, xK_p     ), prompt ("xterm" ++ " -e") defaultXPConfig)
-    , ((modm .|. shiftMask, xK_t     ), prompt ("twyt" ++ " tweet") defaultXPConfig)
+    , ((modm,               xK_e     ), shellPrompt P.defaultXPConfig)
+    , ((modm, xK_grave), prompt ("xterm" ++ " -e") P.defaultXPConfig)
+    , ((modm .|. shiftMask, xK_t     ), prompt ("twyt" ++ " tweet") P.defaultXPConfig)
  
     -- launch gmrun
     --, ((modm .|. shiftMask, xK_p     ), spawn "gmrun")
@@ -108,9 +108,8 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm .|. shiftMask, xK_Right ),    shiftToNext >> nextWS)
 
     , ((modm               , xK_Down ),    toggleWS )
-    , ((modm,  xK_g     ), gotoMenu )
-    , ((modm , xK_b     ), bringMenu)
-    , ((modm, xK_grave), runOrRaisePrompt defaultXPConfig)
+    , ((modm,  xK_g     ), windowPromptGoto  P.defaultXPConfig )
+    , ((modm , xK_b     ), windowPromptBring P.defaultXPConfig)
     --, ((modm, xK_grave),    scratchpadSpawnAction conf)
 
     -- Search commands
@@ -127,15 +126,15 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     [((m .|. modm, k), windows $ f i)
         | (i, k) <- zip (XMonad.workspaces conf) [xK_1 .. xK_9]
         , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
-    ++
 
-    --
+    -- ++
+    -- I wish I had 3 screens..  :-)
     -- mod-{w,e,r}, Switch to physical/Xinerama screens 1, 2, or 3
     -- mod-shift-{w,e,r}, Move client to screen 1, 2, or 3
     --
-    [((m .|. modm, key), screenWorkspace sc >>= flip whenJust (windows . f))
-        | (key, sc) <- zip [xK_w, xK_e, xK_r] [0..]
-        , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
+    -- [((m .|. modm, key), screenWorkspace sc >>= flip whenJust (windows . f))
+    --    | (key, sc) <- zip [xK_w, xK_e, xK_r] [0..]
+    --    , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
 
 
 myLayouts = simpleTabbed ||| tiled ||| Mirror tiled ||| Full
