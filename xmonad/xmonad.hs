@@ -29,6 +29,7 @@ searchEngineMap method = M.fromList $
     ]
 
 
+notSP = (return $ ("SP" /=) . W.tag) :: X (WindowSpace -> Bool)
 
 -- Key bindings. Add, modify or remove key bindings here.
 --
@@ -106,10 +107,10 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- Restart xmonad
     , ((modm              , xK_q     ), restart "xmonad" True)
     -- moving workspaces
-    , ((modm               , xK_Left  ),    prevWS )
-    , ((modm               , xK_Right ),    nextWS )
-    , ((modm .|. shiftMask, xK_Left  ),    shiftToPrev >> prevWS)
-    , ((modm .|. shiftMask, xK_Right ),    shiftToNext >> nextWS)
+    , ((modm               , xK_Left  ),    moveTo Prev (WSIs notSP))
+    , ((modm               , xK_Right ),    moveTo Next (WSIs notSP))
+    , ((modm .|. shiftMask, xK_Left  ),    shiftTo Prev (WSIs notSP) >> moveTo Prev (WSIs notSP))
+    , ((modm .|. shiftMask, xK_Right ),    shiftTo Next (WSIs notSP) >> moveTo Next (WSIs notSP))
 
     , ((modm               , xK_Down ),    toggleWS )
     , ((modm,  xK_g     ), windowPromptGoto  P.defaultXPConfig )
