@@ -14,7 +14,19 @@ import XMonad.Prompt.RunOrRaise
 import XMonad.Util.Scratchpad
 import XMonad.Layout.Tabbed
 import XMonad.ManageHook
-import XMonad.Prompt.Window
+import XMonad.Actions.WindowBringer
+import XMonad.Prompt.Shell
+import qualified XMonad.Prompt         as P
+import qualified XMonad.Actions.Submap as SM
+import qualified XMonad.Actions.Search as S
+
+searchEngineMap method = M.fromList $
+    [ ((0, xK_g), method S.google)
+--    , ((0, xK_h), method S.hoogle)
+    , ((0, xK_w), method S.wikipedia)
+    ]
+
+
 
 -- Key bindings. Add, modify or remove key bindings here.
 --
@@ -25,10 +37,12 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
      ,((modm, xK_F2), spawn $ XMonad.terminal conf)
  
     -- launch dmenu
-    , ((modm,               xK_p     ), spawn "exe=`dmenu_path | dmenu -b` && eval \"exec $exe\"")
+    --, ((modm,               xK_p     ), spawn "exe=`dmenu_path | dmenu -b` && eval \"exec $exe\"")
+    , ((modm,               xK_p     ), shellPrompt defaultXPConfig)
+    , ((modm .|. shiftMask, xK_p     ), prompt ("xterm" ++ " -e") defaultXPConfig)
  
     -- launch gmrun
-    , ((modm .|. shiftMask, xK_p     ), spawn "gmrun")
+    --, ((modm .|. shiftMask, xK_p     ), spawn "gmrun")
  
     -- close focused window 
     , ((modm .|. shiftMask, xK_c     ), kill)
@@ -89,14 +103,19 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- moving workspaces
     , ((modm               , xK_Left  ),    prevWS )
     , ((modm               , xK_Right ),    nextWS )
+    , ((modm .|. shiftMask, xK_Left  ),    shiftToPrev >> prevWS)
+    , ((modm .|. shiftMask, xK_Right ),    shiftToNext >> nextWS)
+
     , ((modm               , xK_Down ),    toggleWS )
-     , ((modm,  xK_g     ), windowPromptGoto  defaultXPConfig {autoComplete = Just 500000 })
-     , ((modm , xK_b     ), windowPromptBring defaultXPConfig)
+    , ((modm,  xK_g     ), gotoMenu )
+    , ((modm , xK_b     ), bringMenu)
     , ((modm, xK_grave), runOrRaisePrompt defaultXPConfig)
     --, ((modm, xK_grave),    scratchpadSpawnAction conf)
+
+    -- Search commands
+     , ((modm, xK_s), SM.submap $ searchEngineMap $ S.promptSearch P.defaultXPConfig)
+     , ((modm .|. shiftMask, xK_s), SM.submap $ searchEngineMap $ S.selectSearch)
   
-    --, ("M-S-<Left>",  shiftToPrev )
-    --, ("M-S-<Right>", shiftToNext )
     ]
     ++
 
