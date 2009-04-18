@@ -42,7 +42,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     --launch commands
     --, ((modm,               xK_p     ), spawn "exe=`dmenu_path | dmenu -b` && eval \"exec $exe\"")
     , ((modm,               xK_e     ), shellPrompt P.defaultXPConfig)
-    --, ((modm, xK_grave), prompt ("xterm" ++ " -e") P.defaultXPConfig)
+    , ((modm .|. shiftMask, xK_e     ), prompt ("xterm" ++ " -e") P.defaultXPConfig)
     , ((modm .|. shiftMask, xK_t     ), prompt ("twyt" ++ " tweet") P.defaultXPConfig)
 
     , ((modm, xK_grave), scratchpadSpawnActionTerminal "xterm")
@@ -158,10 +158,18 @@ myLayouts = noBorders simpleTabbed ||| tiled ||| Mirror tiled ||| noBorders Full
 
 --myManageHook = scratchpadManageHook (W.RationalRect 0 0 1 0.3) <+> manageHook gnomeConfig
 
+myManageHook = composeAll
+    [ className =? "Gimp"      --> doFloat
+    , className =? "Vncviewer" --> doFloat
+    , className =? "Twitux"    --> doFloat
+    , className =? "Gwibber"   --> doFloat
+    ] <+> scratchpadManageHook (W.RationalRect 0.45 0.65 0.55 0.25)
+
+
 main = xmonad $ gnomeConfig {
     terminal = "x-terminal-emulator"
   , modMask = mod4Mask
   , keys = myKeys
   , layoutHook = ewmhDesktopsLayout $ avoidStruts $ myLayouts
-  , manageHook = scratchpadManageHook (W.RationalRect 0.45 0.65 0.55 0.25) <+> manageHook gnomeConfig
+  , manageHook = myManageHook <+> manageHook gnomeConfig
 }
