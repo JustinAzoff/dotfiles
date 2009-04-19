@@ -154,7 +154,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     --    , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
 
 
-myLayouts = noBorders simpleTabbed ||| tiled ||| Mirror tiled ||| noBorders Full
+myLayouts = smartBorders simpleTabbed ||| tiled ||| Mirror tiled ||| smartBorders Full
   where
      -- default tiling algorithm partitions the screen into two panes
      tiled   = Tall nmaster delta ratio
