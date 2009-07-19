@@ -4,5 +4,5 @@ set shiftwidth=4
 set smarttab
 set autoindent
 set dictionary=/usr/share/dict/words
+set spell
 syntax on
-
