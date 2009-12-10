@@ -52,8 +52,8 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
  
     --launch commands
     --, ((modm,               xK_p     ), spawn "exe=`dmenu_path | dmenu -b` && eval \"exec $exe\"")
-    , ((modm,               xK_e     ), shellPrompt P.defaultXPConfig)
-    , ((modm .|. shiftMask, xK_e     ), prompt ("xterm" ++ " -e") P.defaultXPConfig)
+    , ((modm,               xK_a     ), shellPrompt P.defaultXPConfig)
+    , ((modm .|. shiftMask, xK_a     ), prompt ("xterm" ++ " -e") P.defaultXPConfig)
     -- , ((modm .|. shiftMask, xK_t     ), prompt ("twyt" ++ " tweet") P.defaultXPConfig)
     , ((modm .|. shiftMask, xK_t     ), tweetPrompt P.defaultXPConfig)
 
@@ -119,11 +119,12 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- Restart xmonad
     , ((modm              , xK_q     ), restart "xmonad" True)
     -- moving workspaces
-    , ((modm               , xK_Left  ),    moveTo Prev (WSIs notSP))
-    , ((modm               , xK_Right ),    moveTo Next (WSIs notSP))
+    , ((modm               , xK_Left  ),    moveTo Prev HiddenWS)
+    , ((modm               , xK_Right ),    moveTo Next HiddenWS)
     , ((modm .|. shiftMask, xK_Left  ),    shiftTo Prev (WSIs notSP) >> moveTo Prev (WSIs notSP))
     , ((modm .|. shiftMask, xK_Right ),    shiftTo Next (WSIs notSP) >> moveTo Next (WSIs notSP))
 
+    , ((modm               , xK_Up ),      swapNextScreen ) -- swap screens
     , ((modm               , xK_Down ),    toggleWS )
     , ((modm,  xK_g     ), windowPromptGoto  P.defaultXPConfig )
     , ((modm , xK_b     ), windowPromptBring P.defaultXPConfig)
@@ -142,16 +143,16 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     --
     [((m .|. modm, k), windows $ f i)
         | (i, k) <- zip (XMonad.workspaces conf) [xK_1 .. xK_9]
-        , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
+        , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
 
-    -- ++
+    ++
     -- I wish I had 3 screens..  :-)
     -- mod-{w,e,r}, Switch to physical/Xinerama screens 1, 2, or 3
     -- mod-shift-{w,e,r}, Move client to screen 1, 2, or 3
     --
-    -- [((m .|. modm, key), screenWorkspace sc >>= flip whenJust (windows . f))
-    --    | (key, sc) <- zip [xK_w, xK_e, xK_r] [0..]
-    --    , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
+    [((m .|. modm, key), screenWorkspace sc >>= flip whenJust (windows . f))
+       | (key, sc) <- zip [xK_w, xK_e, xK_r] [0..]
+       , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
 
 
 myLayouts = smartBorders simpleTabbed ||| tiled ||| Mirror tiled ||| smartBorders Full
@@ -182,6 +183,6 @@ main = xmonad $ gnomeConfig {
     terminal = "x-terminal-emulator"
   , modMask = mod4Mask
   , keys = myKeys
-  , layoutHook = ewmhDesktopsLayout $ avoidStruts $ myLayouts
+  , layoutHook = avoidStruts $ myLayouts
   , manageHook = myManageHook <+> manageHook gnomeConfig
 }
