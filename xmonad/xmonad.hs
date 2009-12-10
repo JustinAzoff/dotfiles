@@ -10,6 +10,7 @@ import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
 
 import XMonad.Actions.CycleWS 
+import XMonad.Actions.GridSelect
 import System.Exit
 
 import qualified XMonad.Prompt         as P
@@ -130,6 +131,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm               , xK_Up ),      swapNextScreen ) -- swap screens
     , ((modm               , xK_Down ),    toggleWS )
     , ((modm,  xK_g     ), windowPromptGoto  P.defaultXPConfig )
+    , ((modm .|. shiftMask,  xK_g     ), goToSelected defaultGSConfig)
     , ((modm , xK_b     ), windowPromptBring P.defaultXPConfig)
     --, ((modm, xK_grave),    scratchpadSpawnAction conf)
 
