@@ -22,6 +22,8 @@ import XMonad.Prompt.Window
 
 import XMonad.Util.Scratchpad
 import XMonad.Layout.Tabbed
+import XMonad.Layout.SimpleFloat
+import XMonad.Layout.Maximize
 import XMonad.ManageHook
 
 
@@ -58,6 +60,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm .|. shiftMask, xK_t     ), tweetPrompt P.defaultXPConfig)
 
     , ((modm, xK_grave), scratchpadSpawnActionTerminal "xterm")
+    , ((modm, xK_backslash), withFocused (sendMessage . maximizeRestore))
  
     -- launch gmrun
     --, ((modm .|. shiftMask, xK_p     ), spawn "gmrun")
@@ -155,7 +158,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
        , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
 
 
-myLayouts = smartBorders simpleTabbed ||| tiled ||| Mirror tiled ||| smartBorders Full
+myLayouts = smartBorders simpleTabbed ||| simpleFloat ||| tiled ||| Mirror tiled ||| smartBorders Full
   where
      -- default tiling algorithm partitions the screen into two panes
      tiled   = Tall nmaster delta ratio
@@ -183,6 +186,6 @@ main = xmonad $ gnomeConfig {
     terminal = "x-terminal-emulator"
   , modMask = mod4Mask
   , keys = myKeys
-  , layoutHook = avoidStruts $ myLayouts
+  , layoutHook = avoidStruts . maximize $ myLayouts
   , manageHook = myManageHook <+> manageHook gnomeConfig
 }
