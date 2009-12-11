@@ -45,6 +45,9 @@ tweetPrompt c =
         >> return ()
 
 
+gsconfig1 = defaultGSConfig { gs_cellheight = 50, gs_cellwidth = 250 }
+
+
 -- Key bindings. Add, modify or remove key bindings here.
 --
 myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
@@ -131,7 +134,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm               , xK_Up ),      swapNextScreen ) -- swap screens
     , ((modm               , xK_Down ),    toggleWS )
     , ((modm,  xK_g     ), windowPromptGoto  P.defaultXPConfig )
-    , ((modm .|. shiftMask,  xK_g     ), goToSelected defaultGSConfig)
+    , ((modm .|. shiftMask,  xK_g     ), goToSelected gsconfig1)
     , ((modm , xK_b     ), windowPromptBring P.defaultXPConfig)
     --, ((modm, xK_grave),    scratchpadSpawnAction conf)
 
