@@ -1,8 +1,24 @@
-set expandtab
-set tabstop=4
-set shiftwidth=4
 set smarttab
+set tabstop=4 shiftwidth=4
+set expandtab
 set autoindent
+
 set dictionary=/usr/share/dict/words
-set spell
+" set spell
+set spellfile=/home/justin/.vimspell.en.add
+
 syntax on
+filetype on
+filetype plugin on
+
+set background=dark
+colorscheme solarized
+
+set hidden                      "allow switching buffers while unsaved
+
+set showcmd                     " display incomplete commands
+set hlsearch                    " highlight matches
+set incsearch                   " incremental searching
+set ignorecase                  " searches are case insensitive...
+set smartcase                   " ... unless they contain at least one capital letter
+
