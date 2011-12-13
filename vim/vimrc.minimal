@@ -1,3 +1,4 @@
+call pathogen#infect()
 set smarttab
 set tabstop=4 shiftwidth=4
 set expandtab
@@ -21,4 +22,23 @@ set hlsearch                    " highlight matches
 set incsearch                   " incremental searching
 set ignorecase                  " searches are case insensitive...
 set smartcase                   " ... unless they contain at least one capital letter
+
+let mapleader=","
+nnoremap <leader><leader> <c-^>
+
+
+" Remember last location in file, but not for commit messages.
+"   " see :help last-position-jump
+au BufReadPost * if &filetype !~ '^git\c' && line("'\"") > 0 && line("'\"") <= line("$")
+    \| exe "normal! g`\"" | endif
+
+
+set backupdir=~/.vim/_backup    " where to put backup files.
+set directory=~/.vim/_temp      " where to put swap files.
+
+
+" provide some context when editing
+set scrolloff=10
+
+:imap jj <Esc>
 
