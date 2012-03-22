@@ -187,8 +187,11 @@ myManageHook = composeAll
     ] <+> scratchpadManageHook (W.RationalRect 0.45 0.65 0.55 0.25)
 
 
+myworkspaces = map show [1 .. 12 :: Int]
+
 main = xmonad $ gnomeConfig {
     terminal = "x-terminal-emulator"
+  , workspaces = myworkspaces
   , modMask = mod4Mask
   , keys = myKeys
   , layoutHook = avoidStruts . maximize $ myLayouts
