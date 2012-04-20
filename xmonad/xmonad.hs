@@ -3,6 +3,7 @@ import XMonad.Core
 import XMonad.Config.Gnome
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.EwmhDesktops
+import XMonad.Hooks.SetWMName
 import XMonad.Layout.NoBorders
 import XMonad.Util.Run
 
@@ -196,4 +197,5 @@ main = xmonad $ gnomeConfig {
   , keys = myKeys
   , layoutHook = avoidStruts . maximize $ myLayouts
   , manageHook = myManageHook <+> manageHook gnomeConfig
+  , startupHook = setWMName "LG3D"
 }
