@@ -92,6 +92,18 @@ vicious.register(netwidget, vicious.widgets.net, '<span color="#CC9393">${wlan0 
 
 mytextclock = awful.widget.textclock({ align = "right" })
 
+--weather
+
+-- Weather widget
+weatherwidget = widget({ type = "textbox" })
+weather_t = awful.tooltip({ objects = { weatherwidget },})
+
+vicious.register(weatherwidget, vicious.widgets.weather,
+                function (widget, args)
+                    weather_t:set_text("City: " .. args["{city}"] .."\nWind: " .. args["{windkmh}"] .. "km/h " .. args["{wind}"] .. "\nSky: " .. args["{sky}"] .. "\nHumidity: " .. args["{humid}"] .. "%")
+                    return " " .. args["{tempf}"] .. "F"
+                end, 1800, "KALB")
+
 -- Create a systray
 mysystray = widget({ type = "systray" })
 
@@ -168,6 +180,7 @@ for s = 1, screen.count() do
         netwidget,
         s == 1 and mysystray or nil,
         cputemp,
+        weatherwidget,
         cpuwidget,
         mytasklist[s],
         layout = awful.widget.layout.horizontal.rightleft

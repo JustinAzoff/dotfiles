@@ -13,7 +13,6 @@ filetype on
 filetype plugin on
 
 set background=dark
-colorscheme solarized
 
 set hidden                      "allow switching buffers while unsaved
 
