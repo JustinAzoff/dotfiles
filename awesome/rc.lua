@@ -100,7 +100,7 @@ weather_t = awful.tooltip({ objects = { weatherwidget },})
 
 vicious.register(weatherwidget, vicious.widgets.weather,
                 function (widget, args)
-                    weather_t:set_text("City: " .. args["{city}"] .."\nWind: " .. args["{windkmh}"] .. "km/h " .. args["{wind}"] .. "\nSky: " .. args["{sky}"] .. "\nHumidity: " .. args["{humid}"] .. "%")
+                    weather_t:set_text("City: " .. args["{city}"] .."\nWind: " .. args["{windmph}"] .. "mp/h " .. args["{wind}"] .. "\nSky: " .. args["{sky}"] .. "\nHumidity: " .. args["{humid}"] .. "%")
                     return " " .. args["{tempf}"] .. "F"
                 end, 1800, "KALB")
 
