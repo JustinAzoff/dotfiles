@@ -19,3 +19,6 @@ ln -s ~/projects/dotfiles/awesome/rc.lua ~/.config/awesome/
 
 #xresources
 ln -s ~/projects/dotfiles/Xresources ~/.Xresources
+
+dpkg -l xfonts-terminus &> /dev/null || sudo apt-get install xfonts-terminus
+dpkg -l rxvt-unicode &> /dev/null || sudo apt-get install rxvt-unicode
