@@ -12,3 +12,10 @@ mkdir -p ~/.vim/_backup  ~/.vim/_temp
 #xmonad
 mkdir -p ~/.xmonad
 ln -s ~/projects/dotfiles/xmonad/xmonad.hs ~/.xmonad
+
+#awesome
+mkdir -p ~/.config/awesome/
+ln -s ~/projects/dotfiles/awesome/rc.lua ~/.config/awesome/
+
+#xresources
+ln -s ~/projects/dotfiles/Xresources ~/.Xresources
