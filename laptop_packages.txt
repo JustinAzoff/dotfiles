@@ -1,0 +1,14 @@
+#x
+awesome awesome-extra rxvt-unicode gtk-redshift xclip mplayer
+
+#shell
+byobu htop tmux
+
+#file
+sshfs git-annex duplicity knockd
+
+#python
+python-pip python-virtualenv virtualenvwrapper
+
+#network
+ethtool tcpdump dsniff 
