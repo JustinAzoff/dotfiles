@@ -8,7 +8,7 @@ byobu htop tmux
 sshfs git-annex duplicity knockd
 
 #python
-python-pip python-virtualenv virtualenvwrapper
+python-pip python-virtualenv virtualenvwrapper pyflakes pylint
 
 #network
 ethtool tcpdump dsniff 
