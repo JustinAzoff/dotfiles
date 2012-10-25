@@ -229,7 +229,7 @@ globalkeys = awful.util.table.join(
         end),
 
     -- Standard program
-    -- awful.key({ modkey,           }, "t",     function () awful.util.spawn(terminal) end),
+    awful.key({ modkey,           }, "t",     function () awful.util.spawn(terminal) end),
     awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end),
     awful.key({ modkey,           }, "q",     function () awful.util.spawn("gnome-screensaver-command --lock") end),
     awful.key({ modkey,           }, "d",     function () awful.util.spawn("dmenu_run") end),
