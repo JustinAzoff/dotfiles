@@ -16,8 +16,7 @@ require("debian.menu")
 beautiful.init("/usr/share/awesome/themes/default/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "urxvtcd"
-big_terminal = terminal .. " -fn xft:terminus-20"
+terminal = "gnome-terminal"
 editor = os.getenv("EDITOR") or "editor"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -35,8 +34,8 @@ layouts =
     awful.layout.suit.floating,
     awful.layout.suit.tile,
     awful.layout.suit.tile.left,
-    awful.layout.suit.tile.bottom,
-    -- awful.layout.suit.tile.top,
+    -- awful.layout.suit.tile.bottom,
+    awful.layout.suit.tile.top,
     awful.layout.suit.fair,
     -- awful.layout.suit.fair.horizontal,
     -- awful.layout.suit.spiral,
@@ -232,7 +231,6 @@ globalkeys = awful.util.table.join(
     -- Standard program
     -- awful.key({ modkey,           }, "t",     function () awful.util.spawn(terminal) end),
     awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end),
-    awful.key({ modkey, "Shift"   }, "Return", function () awful.util.spawn(big_terminal) end),
     awful.key({ modkey,           }, "q",     function () awful.util.spawn("gnome-screensaver-command --lock") end),
     awful.key({ modkey,           }, "d",     function () awful.util.spawn("dmenu_run") end),
     awful.key({ modkey, "Control" }, "r", awesome.restart),
