@@ -1,0 +1,28 @@
+#x
+awesome awesome-extra gtk-redshift xclip  suckless-tools
+
+#media 
+mplayer vlc ncmpcpp mumble mpd geeqie
+
+#shell
+byobu tmux
+
+#dev
+git golang vim
+
+#file
+sshfs git-annex duplicity mtpfs 
+
+#utils
+gnupg moreutils num-utils debian-goodies
+htop dstat lsof strace ltrace sqlite3
+
+#conn 
+mosh knockd autossh
+
+#python
+python-pip python-virtualenv virtualenvwrapper pyflakes pylint
+
+#network
+ethtool tcpdump dsniff wireshark network-manager-openvpn-gnome network-manager-openconnect-gnome
+trickle etherwake apache2-utils nmap gns3
