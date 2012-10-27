@@ -74,22 +74,21 @@ mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
 -- }}}
 
 -- {{{ Wibox
--- Create a textclock widget
---  Network usage widget
+
 -- Initialize widget
 cpuwidget = widget({ type = "textbox" })
-cpuwidget.width, cpuwidget.align = 30, "right"
-vicious.register(cpuwidget, vicious.widgets.cpu, "$1%")
+-- -- Register widget
+vicious.register(cpuwidget, vicious.widgets.cpu, " | CPU: $1 %")
 
 cputemp = widget({ type = "textbox" })
--- Register widget
-vicious.register(cputemp, vicious.widgets.thermal, " $1 C", 19, "thermal_zone0")
+vicious.register(cputemp, vicious.widgets.thermal, "$1 C |", 19, "thermal_zone0")
 
 
+--  Network usage widget
 netwidget = widget({ type = "textbox" })
--- Register widget
 vicious.register(netwidget, vicious.widgets.net, '<span color="#CC9393">${wlan0 down_kb}</span> <span color="#7F9F7F">${wlan0 up_kb}</span>', 3)
 
+-- Create a textclock widget
 mytextclock = awful.widget.textclock({ align = "right" })
 
 --weather
@@ -101,8 +100,13 @@ weather_t = awful.tooltip({ objects = { weatherwidget },})
 vicious.register(weatherwidget, vicious.widgets.weather,
                 function (widget, args)
                     weather_t:set_text("City: " .. args["{city}"] .."\nWind: " .. args["{windmph}"] .. "mp/h " .. args["{wind}"] .. "\nSky: " .. args["{sky}"] .. "\nHumidity: " .. args["{humid}"] .. "%")
-                    return " " .. args["{tempf}"] .. "F"
+                    return "Temp: " .. args["{tempf}"] .. "F"
                 end, 1800, "KALB")
+
+-- Battery widget
+
+battwidget = widget({ type = "textbox" })
+vicious.register(battwidget, vicious.widgets.bat, "Bat: $1 $2% $3 | ",67,"BAT0")
 
 -- Create a systray
 mysystray = widget({ type = "systray" })
@@ -170,18 +174,19 @@ for s = 1, screen.count() do
     -- Add widgets to the wibox - order matters
     mywibox[s].widgets = {
         {
+            mylayoutbox[s],
             mylauncher,
             mytaglist[s],
             mypromptbox[s],
             layout = awful.widget.layout.horizontal.leftright
         },
-        mylayoutbox[s],
         mytextclock,
         netwidget,
         s == 1 and mysystray or nil,
         cputemp,
-        weatherwidget,
         cpuwidget,
+        weatherwidget,
+        battwidget,
         mytasklist[s],
         layout = awful.widget.layout.horizontal.rightleft
     }
