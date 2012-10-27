@@ -75,6 +75,10 @@ mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
 
 -- {{{ Wibox
 
+memwidget = widget({ type = "textbox" })
+vicious.register(memwidget, vicious.widgets.mem, " | Mem: $2/$3")
+
+
 -- Initialize widget
 cpuwidget = widget({ type = "textbox" })
 -- -- Register widget
@@ -185,6 +189,7 @@ for s = 1, screen.count() do
         s == 1 and mysystray or nil,
         cputemp,
         cpuwidget,
+        memwidget,
         weatherwidget,
         battwidget,
         mytasklist[s],
