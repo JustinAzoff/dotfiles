@@ -82,7 +82,7 @@ vicious.register(memwidget, vicious.widgets.mem, " | Mem: $2/$3")
 -- Initialize widget
 cpuwidget = widget({ type = "textbox" })
 -- -- Register widget
-vicious.register(cpuwidget, vicious.widgets.cpu, " | CPU: $1 %")
+vicious.register(cpuwidget, vicious.widgets.cpu, " | CPU: $1% ")
 
 cputemp = widget({ type = "textbox" })
 vicious.register(cputemp, vicious.widgets.thermal, "$1 C |", 19, "thermal_zone0")
@@ -90,6 +90,8 @@ vicious.register(cputemp, vicious.widgets.thermal, "$1 C |", 19, "thermal_zone0"
 
 --  Network usage widget
 netwidget = widget({ type = "textbox" })
+netwidget.width, netwidget.align = 70, "right"
+
 vicious.register(netwidget, vicious.widgets.net, '<span color="#CC9393">${wlan0 down_kb}</span> <span color="#7F9F7F">${wlan0 up_kb}</span>', 3)
 
 -- Create a textclock widget
