@@ -107,7 +107,7 @@ vicious.register(weatherwidget, vicious.widgets.weather,
                 function (widget, args)
                     weather_t:set_text("City: " .. args["{city}"] .."\nWind: " .. args["{windmph}"] .. "mp/h " .. args["{wind}"] .. "\nSky: " .. args["{sky}"] .. "\nHumidity: " .. args["{humid}"] .. "%")
                     return "Temp: " .. args["{tempf}"] .. "F"
-                end, 1800, "KALB")
+                end, 1800, "KATL")
 
 -- Battery widget
 
