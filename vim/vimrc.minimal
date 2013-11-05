@@ -41,7 +41,6 @@ set scrolloff=10
 
 :imap jj <Esc>
 
-
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '\v[\/]\.(git|hg|svn)$',
   \ 'file': '\v\.(exe|so|dll|pyc)$',
