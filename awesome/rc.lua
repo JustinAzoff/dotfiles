@@ -13,7 +13,7 @@ require("debian.menu")
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, and wallpapers
-beautiful.init("/usr/share/awesome/themes/default/theme.lua")
+beautiful.init("/usr/share/awesome/themes/zenburn/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 terminal = "gnome-terminal"
@@ -31,6 +31,7 @@ modkey = "Mod4"
 layouts =
 {
     awful.layout.suit.max,
+    awful.layout.suit.max.fullscreen,
     awful.layout.suit.floating,
     awful.layout.suit.tile,
     awful.layout.suit.tile.left,
@@ -40,7 +41,6 @@ layouts =
     -- awful.layout.suit.fair.horizontal,
     -- awful.layout.suit.spiral,
     -- awful.layout.suit.spiral.dwindle,
-    awful.layout.suit.max.fullscreen,
     awful.layout.suit.magnifier
 }
 -- }}}
@@ -74,22 +74,27 @@ mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
 -- }}}
 
 -- {{{ Wibox
--- Create a textclock widget
---  Network usage widget
+
+memwidget = widget({ type = "textbox" })
+vicious.register(memwidget, vicious.widgets.mem, " | Mem: $2/$3")
+
+
 -- Initialize widget
 cpuwidget = widget({ type = "textbox" })
-cpuwidget.width, cpuwidget.align = 30, "right"
-vicious.register(cpuwidget, vicious.widgets.cpu, "$1%")
+-- -- Register widget
+vicious.register(cpuwidget, vicious.widgets.cpu, " | CPU: $1% ")
 
 cputemp = widget({ type = "textbox" })
--- Register widget
-vicious.register(cputemp, vicious.widgets.thermal, " $1 C", 19, "thermal_zone0")
+vicious.register(cputemp, vicious.widgets.thermal, "$1 C |", 19, "thermal_zone0")
 
 
+--  Network usage widget
 netwidget = widget({ type = "textbox" })
--- Register widget
+netwidget.width, netwidget.align = 70, "right"
+
 vicious.register(netwidget, vicious.widgets.net, '<span color="#CC9393">${wlan0 down_kb}</span> <span color="#7F9F7F">${wlan0 up_kb}</span>', 3)
 
+-- Create a textclock widget
 mytextclock = awful.widget.textclock({ align = "right" })
 
 --weather
@@ -101,8 +106,13 @@ weather_t = awful.tooltip({ objects = { weatherwidget },})
 vicious.register(weatherwidget, vicious.widgets.weather,
                 function (widget, args)
                     weather_t:set_text("City: " .. args["{city}"] .."\nWind: " .. args["{windmph}"] .. "mp/h " .. args["{wind}"] .. "\nSky: " .. args["{sky}"] .. "\nHumidity: " .. args["{humid}"] .. "%")
-                    return " " .. args["{tempf}"] .. "F"
-                end, 1800, "KALB")
+                    return "Temp: " .. args["{tempf}"] .. "F"
+                end, 1800, "KATL")
+
+-- Battery widget
+
+battwidget = widget({ type = "textbox" })
+vicious.register(battwidget, vicious.widgets.bat, "Bat: $1 $2% $3 | ",67,"BAT0")
 
 -- Create a systray
 mysystray = widget({ type = "systray" })
@@ -170,18 +180,20 @@ for s = 1, screen.count() do
     -- Add widgets to the wibox - order matters
     mywibox[s].widgets = {
         {
+            mylayoutbox[s],
             mylauncher,
             mytaglist[s],
             mypromptbox[s],
             layout = awful.widget.layout.horizontal.leftright
         },
-        mylayoutbox[s],
         mytextclock,
         netwidget,
         s == 1 and mysystray or nil,
         cputemp,
-        weatherwidget,
         cpuwidget,
+        memwidget,
+        weatherwidget,
+        battwidget,
         mytasklist[s],
         layout = awful.widget.layout.horizontal.rightleft
     }
@@ -335,6 +347,8 @@ awful.rules.rules = {
     { rule = { class = "pinentry" },
       properties = { floating = true } },
     { rule = { class = "gimp" },
+      properties = { floating = true } },
+    { rule = { class = "Steam" },
       properties = { floating = true } },
     -- Set Firefox to always map on tags number 2 of screen 1.
     -- { rule = { class = "Firefox" },
