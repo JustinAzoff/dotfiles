@@ -58,7 +58,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
      ,((modm, xK_F2), spawn $ XMonad.terminal conf)
  
     --launch commands
-    --, ((modm,               xK_p     ), spawn "exe=`dmenu_path | dmenu -b` && eval \"exec $exe\"")
+    , ((modm,               xK_p     ), spawn "dmenu_cmd_wrapper")
     , ((modm,               xK_a     ), shellPrompt P.defaultXPConfig)
     , ((modm .|. shiftMask, xK_a     ), prompt ("xterm" ++ " -e") P.defaultXPConfig)
     -- , ((modm .|. shiftMask, xK_t     ), prompt ("twyt" ++ " tweet") P.defaultXPConfig)
