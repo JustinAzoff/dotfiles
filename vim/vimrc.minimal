@@ -48,3 +48,16 @@ let g:ctrlp_custom_ignore = {
 
 set laststatus=2
 set t_Co=256
+set background=dark
+colorscheme solarized
+
+" Stuff from Instantly better VIM
+highlight ColorColumn ctermbg=magenta
+
+call matchadd('ColorColumn', '\%81v', 100)
+
+exec "set listchars=tab:\uBB\uBB,trail:\uB7,nbsp:~"
+set list
+
+nnoremap  ;  :
+nnoremap  :  ;
