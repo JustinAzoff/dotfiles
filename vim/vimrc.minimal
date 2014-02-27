@@ -48,8 +48,14 @@ let g:ctrlp_custom_ignore = {
 
 set laststatus=2
 set t_Co=256
+
 set background=dark
 colorscheme solarized
+
+" Go stuff
+autocmd BufWritePre *.go Fmt
+autocmd Filetype go set makeprg=go\ build
+nmap <F5> :make<CR><CR>
 
 " Stuff from Instantly better VIM
 highlight ColorColumn ctermbg=magenta
@@ -61,3 +67,5 @@ set list
 
 nnoremap  ;  :
 nnoremap  :  ;
+
+
